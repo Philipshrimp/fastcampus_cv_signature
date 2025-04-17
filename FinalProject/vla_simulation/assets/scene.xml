@@ -1,0 +1,39 @@
+<mujoco model="simple_arm">
+  <compiler angle="radian" inertiafromgeom="true"/>
+  <option integrator="RK4" timestep="0.01"/>
+
+  <worldbody>
+    <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+    <geom type="plane" size="1 1 0.1" rgba=".9 .9 .9 1"/>
+
+    <camera name="fixed_camera" pos="0 -1.0 1.0" xyaxes="1 0 0 0 1 1"/>
+    <camera name="top_down" pos="0 0 2.0" zaxis="0 0 1"/>
+
+    <body name="base" pos="0 0 0.1">
+      <joint type="free"/>
+      <geom type="box" size=".05 .05 .05" rgba=".3 .3 .3 1"/>
+
+      <body name="link1" pos="0 0 0.05">
+        <joint name="joint1" type="hinge" axis="0 0 1" pos="0 0 0" range="-2.0 2.0"/>
+        <geom type="capsule" size=".03 .1" fromto="0 0 0 0 0 0.2" rgba="0 .9 0 1"/>
+
+        <body name="link2" pos="0 0 0.2">
+          <joint name="joint2" type="hinge" axis="0 1 0" pos="0 0 0" range="-2.0 2.0"/>
+          <geom name="link2_geom" type="capsule" size=".03 .1" fromto="0 0 0 0 0 0.2" rgba="0 0 .9 1"/>
+
+          <site name="end_effector" pos="0 0 0.2" size=".02"/>
+
+          <body name="target" pos="0.3 0.1 0">
+            <geom name="target_geom" type="sphere" size=".03" rgba="1 0 0 1" contype="0" conaffinity="0"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor joint="joint1" name="motor1" gear="10" ctrllimited="true" ctrlrange="-1.0 1.0"/>
+    <motor joint="joint2" name="motor2" gear="10" ctrllimited="true" ctrlrange="-1.0 1.0"/>
+  </actuator>
+
+</mujoco>
